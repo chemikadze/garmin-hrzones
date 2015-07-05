@@ -1,0 +1,5 @@
+<resources>
+    <string id="AppName">garmin-hrzones</string>
+
+    <bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
+</resources>
