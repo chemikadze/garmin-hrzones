@@ -2,12 +2,14 @@ using Toybox.System as System;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
+using Toybox.UserProfile as UserProfile;
+using Toybox.Time as Time;
+using Toybox.Time.Gregorian as Gregorian;
 
 class HrZonesField extends Ui.DataField {
 	
 	hidden var zoneThresholdTime = 120;	
-
-	// TODO calculate from profile
+	
 	hidden var zoneLowerBound = [0, 120, 140, 160, 180];
 
 	hidden var secondsInZone = [0, 0, 0, 0, 0];
@@ -19,6 +21,10 @@ class HrZonesField extends Ui.DataField {
 	hidden var zoneFontColors  = [zoneFontColor,  zoneFontColor,   zoneFontColor,    zoneFontColor,    zoneFontColor];
 
 	function initialize() {
+		var profile = UserProfile.getProfile();
+		var userAge = Gregorian.info(Time.now(), Time.FORMAT_SHORT).year - profile.birthYear;
+		var maxHr = 208 - 0.7 * userAge;
+		zoneLowerBound = [0, maxHr * 0.6, maxHr * 0.76, maxHr * 0.88, maxHr * 0.96];
     } 
 	
 	function onShow() {
